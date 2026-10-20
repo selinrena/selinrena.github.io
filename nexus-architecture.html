@@ -142,7 +142,7 @@
           <tr><td class="k">Voice style</td><td class="yes">Yes: plain paragraphs, no flattery</td></tr>
           <tr><td class="k">Stances</td><td class="no">Never: they live in SELF.md</td></tr>
           <tr><td class="k">Memories</td><td class="no">Never: they live in WORLD cards</td></tr>
-          <tr><td class="k">Weights delta</td><td class="yes">Small and inspectable (~100M of 3B params)</td></tr>
+          <tr><td class="k">Weights delta</td><td class="yes">Small and inspectable (LoRA r=16: under 3% of the 3B parameters)</td></tr>
           <tr><td class="k">Runtime</td><td class="yes">Offline, your own disk, forever</td></tr>
         </table>
         <p class="cap" style="text-align:left">One narrow pass, so the effect of every ingredient stays attributable.</p>
@@ -170,7 +170,7 @@
     <b>The instrument problem.</b> If you study an AI that was trained to please, "what the machine communicated" and "what the machine was rewarded to say" are the same variable twice. You would analyze an answer with its bias already mixed into it.
   </div>
   <div class="verdict">
-    <b>Identity stays auditable.</b> A persona you can print fits the standards of content analysis. A persona inside weights can only be sampled with probes. Every shaping layer here is text storage, so the design disclosure is a folder, not a vendor promise.
+    <b>Identity stays auditable.</b> A persona you can print fits the standards of content analysis. A persona inside weights can only be sampled with probes. Every shaping layer here is text storage, so the design disclosure is a folder, not a vendor promise. One limit stated plainly: the base weights still carry the vendor's pretraining distribution. What this design removes is the vendor's preference layer on top, not the pretraining underneath; the shaping is ours, the substrate is borrowed.
   </div>
   <div class="verdict">
     <b>Replication is a file flow.</b> Another lab downloads the corpus, runs the notebooks on the free tier, receives the same brain file. Their conversations run offline forever. Machine-made text reproducible at the file level makes sociability treatable like a measurement, not like a vendor demo.
