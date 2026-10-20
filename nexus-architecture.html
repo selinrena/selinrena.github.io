@@ -201,6 +201,28 @@
     </ul>
     <p class="cap">The full repo ships the corpus, the notebook, the wake system, and both brains: the before and the after.</p>
   </div>
+  <h2>7. First runs: what v1 showed</h2>
+  <div class="panel">
+    <ul class="diff">
+      <li><b>What v1 is:</b> a base model plus memory files that define its behavioral principles. No preference tuning on top. One SFT pass on a public 1,023-example corpus teaches the register only.</li>
+      <li><b>What held:</b> voice and register were consistent. The way it answered &mdash; plain, one paragraph, not flattering &mdash; survived across sessions, which is what the files are for.</li>
+      <li><b>What did not:</b> instruction-following. The model could keep its way of responding while losing the question itself, sometimes answering from the shape of the conversation instead of the task.</li>
+      <li><b>What we traced:</b> the reasoning scaffold used at inference (think first, then answer) was never present in training. The model was completing a prompt format it had not been taught.</li>
+      <li><b>Status:</b> observations from early runs &mdash; not conclusions about what the design can achieve.</li>
+    </ul>
+  </div>
+
+  <h2>8. Design sketch for v2</h2>
+  <div class="panel">
+    <ul class="diff">
+      <li><b>Match train and serve:</b> one prompt format, identical on both sides &mdash; or the scaffold is trained in on purpose. The mismatch is gone before anything is measured.</li>
+      <li><b>Log the full prompt:</b> every request records the assembled context, flags, and checkpoint, so a failing answer can be replayed exactly instead of guessed at.</li>
+      <li><b>Evaluate before claiming:</b> an evaluation battery of verifiable questions, format tasks, pushback and flattery probes, scored on task performance separately from behavioral consistency.</li>
+      <li><b>Fix the corpus balance:</b> v1 had only 44 numeric and 17 pushback examples out of 1,023; v2 adds those categories before the next training pass.</li>
+      <li><b>Keep the claim small:</b> v1 stays as it is, a preserved artifact. v2 makes the comparison measurable before any statement about identity goes further than "here is what we saw."</li>
+    </ul>
+    <p class="cap">Same wake system, same files, same swap-only-brain rule: v2 changes the experiment, not the architecture's idea.</p>
+  </div>
 
 </div>
 <p style="text-align:center;margin-top:34px"><a href="/" style="color:#5b9dff;text-decoration:none">&#8592; back to selinkurt.com</a></p>

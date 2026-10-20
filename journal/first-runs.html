@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>First runs: what we measured — Journal — Selin Kurt</title>
+<meta name="description" content="First observations from the NEXUS v1 runs: voice held better than instruction-following, and what that points at for v2.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<script defer src="../script.js"></script>
+</head>
+<body>
+<header class="top">
+  <div class="wrap topbar">
+    <a class="wordmark" href="/">Selin Kurt</a>
+    <nav class="nav">
+      <a href="/">Home</a>
+      <a href="../about.html">About</a>
+      <a href="../index.html#projects">Projects</a>
+      <a href="index.html">Journal</a>
+      <a href="../about.html#contact">Contact</a>
+      <button id="themeBtn" class="theme" aria-label="Toggle dark mode">&#9789;</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="page-head">
+  <div class="wrap">
+    <p class="eyebrow">Journal &middot; October 21, 2026</p>
+    <h1>First runs: what we measured.</h1>
+  </div>
+</section>
+
+<section class="prose">
+  <div class="wrap">
+    <p>NEXUS v1 combines a base model with memory files that define its
+    behavioral principles. No additional preference tuning is applied. The
+    goal is to test how much of a model's behavior can be shaped through
+    this setup, and where that approach stops working.</p>
+
+    <p>The first runs showed that voice and register were more consistent
+    than instruction-following. The model could maintain a recognizable way
+    of responding, but it did not always hold the question itself. Looking
+    into the training pipeline revealed a mismatch: the two-pass scaffold
+    used at inference was not represented in training.</p>
+
+    <p>The next step is v2. I'm working on a cleaner match between training
+    and inference, followed by an evaluation battery that separates task
+    performance from behavioral consistency. Until those tests are in place,
+    these are observations from early runs, not conclusions about what the
+    design can achieve.</p>
+
+    <p style="margin-top:36px"><a class="backlink" href="index.html">&larr; return to the journal</a></p>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap footbar">
+    <span>&copy; 2026 selinkurt.com</span>
+    <span class="foot-links"><a href="mailto:kselin26@m.fudan.edu.cn">contact</a> &middot; <a href="https://github.com/selinrena">github</a> &middot; <a href="https://kaggle.com/selinkurt">kaggle</a> &middot; <a href="https://www.linkedin.com/in/selinrenakurt/">linkedin</a></span>
+  </div>
+</footer>
+</body>
+</html>
