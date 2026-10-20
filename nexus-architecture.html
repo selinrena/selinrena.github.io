@@ -162,7 +162,7 @@
       <li><b>Before:</b> testing the base brain against a tuned brain meant confounds (different companies, different pipelines, unknown corpora).</li>
       <li><b>After:</b> the study axis is clean: one corpus, one wake system, one codebase; only the brain file changes. Behaviors that move are attributable to preference training itself.</li>
     </ul>
-    <p class="cap">This is what makes the comparison honest: only the brain is swapped, and everything around it stays exactly the same &mdash; so any change in behavior has to come from the training, not the surroundings.</p>
+    <p class="cap">This is what makes the comparison honest: only the brain is swapped, and everything around it stays exactly the same, so any change in behavior has to come from the training, not the surroundings.</p>
   </div>
 
   <h2>5. Why it matters: talking to a machine with no influence built in</h2>
@@ -205,17 +205,17 @@
   <div class="panel">
     <ul class="diff">
       <li><b>What v1 is:</b> a base model plus memory files that define its behavioral principles. No preference tuning on top. One SFT pass on a public 1,023-example corpus teaches the register only.</li>
-      <li><b>What held:</b> voice and register were consistent. The way it answered &mdash; plain, one paragraph, not flattering &mdash; survived across sessions, which is what the files are for.</li>
+      <li><b>What held:</b> voice and register were consistent. The way it answered (plain, one paragraph, not flattering) survived across sessions, which is what the files are for.</li>
       <li><b>What did not:</b> instruction-following. The model could keep its way of responding while losing the question itself, sometimes answering from the shape of the conversation instead of the task.</li>
       <li><b>What we traced:</b> the reasoning scaffold used at inference (think first, then answer) was never present in training. The model was completing a prompt format it had not been taught.</li>
-      <li><b>Status:</b> observations from early runs &mdash; not conclusions about what the design can achieve.</li>
+      <li><b>Status:</b> observations from early runs, not conclusions about what the design can achieve.</li>
     </ul>
   </div>
 
   <h2>8. Design sketch for v2</h2>
   <div class="panel">
     <ul class="diff">
-      <li><b>Match train and serve:</b> one prompt format, identical on both sides &mdash; or the scaffold is trained in on purpose. The mismatch is gone before anything is measured.</li>
+      <li><b>Match train and serve:</b> one prompt format, identical on both sides, or the scaffold is trained in on purpose. The mismatch is gone before anything is measured.</li>
       <li><b>Log the full prompt:</b> every request records the assembled context, flags, and checkpoint, so a failing answer can be replayed exactly instead of guessed at.</li>
       <li><b>Evaluate before claiming:</b> an evaluation battery of verifiable questions, format tasks, pushback and flattery probes, scored on task performance separately from behavioral consistency.</li>
       <li><b>Fix the corpus balance:</b> v1 had only 44 numeric and 17 pushback examples out of 1,023; v2 adds those categories before the next training pass.</li>
