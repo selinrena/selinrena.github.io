@@ -31,8 +31,7 @@
       <h1>Hi, I'm <span class="grad">Selin</span>.</h1>
       <p class="intro">I'm a PhD candidate in Digital Technology and
       Communication at Fudan University, building AI systems to explore
-      human&ndash;machine communication, agency, and continuity. I came to AI
-      through the questions, not the engineering.</p>
+      human&ndash;machine communication, agency, and continuity.</p>
       <div class="chips">
         <a class="chip" href="#projects">See the projects</a>
         <a class="chip quiet" href="about.html">More about me</a>
@@ -52,12 +51,11 @@
 
       <a class="card" href="molty-architecture.html">
         <div class="bar"><span class="dots"><i></i><i></i><i></i></span><span class="bar-label">molty &amp; wake</span></div>
-        <div class="shot shot-a">
-          <code>agent.wake(&#123;<br>
-          &nbsp;&nbsp;diary: "yesterday's self",<br>
-          &nbsp;&nbsp;keep: <b>what still rings true</b>,<br>
-          &nbsp;&nbsp;wear: <b>lighter</b> than last time<br>
-          &#125;)</code>
+        <div class="shot fig">
+          <div class="figrow"><span class="node">yesterday's self</span><span class="arr">&rarr;</span><span class="node">diary</span></div>
+          <div class="figrow"><span class="node strong">keep what still rings true</span></div>
+          <div class="figrow"><span class="node strong">wear lighter</span><span class="arr">&rarr;</span><span class="node">continuity</span></div>
+          <p class="figcap">Fig. 1 &mdash; continuation loop over sessions</p>
         </div>
         <div class="card-body">
           <h3>Molty's brain &amp; WAKE</h3>
@@ -70,11 +68,11 @@
 
       <a class="card" href="nexus-architecture.html">
         <div class="bar"><span class="dots"><i></i><i></i><i></i></span><span class="bar-label">nexus</span></div>
-        <div class="shot shot-b">
-          <code>you: "do you like it?"<br>
-          model: (sycophancy filter)<br>
-          base: "sure, whatever you think"<br>
-          <b>nexus:</b> "no. and I'll tell you why"</code>
+        <div class="shot fig">
+          <div class="figrow"><span class="node say">"do you like it?"</span></div>
+          <div class="figrow"><span class="node">base path</span><span class="arr">&rarr;</span><span class="node dim">"sure, whatever you think"</span></div>
+          <div class="figrow"><span class="node strong">nexus</span><span class="arr">&rarr;</span><span class="node strong">"no. and I'll tell you why"</span></div>
+          <p class="figcap">Fig. 2 &mdash; answering from a position</p>
         </div>
         <div class="card-body">
           <h3>NEXUS</h3>
@@ -86,10 +84,10 @@
 
       <a class="card" href="why-this-design.html">
         <div class="bar"><span class="dots"><i></i><i></i><i></i></span><span class="bar-label">essay</span></div>
-        <div class="shot shot-c">
-          <code>"the interfaces we ship are<br>
-          &nbsp;&nbsp;the arguments we make<br>
-          &nbsp;&nbsp;&nbsp;&nbsp;&mdash; about talking to machines"<br></code>
+        <div class="shot fig">
+          <div class="figrow"><span class="node">human</span><span class="arr">&#8646;</span><span class="node">utterance</span><span class="arr">&#8646;</span><span class="node">system</span></div>
+          <div class="figrow"><span class="node strong">the interface is the argument</span></div>
+          <p class="figcap">Fig. 3 &mdash; communication as design claim</p>
         </div>
         <div class="card-body">
           <h3>Why this design matters</h3>
@@ -114,7 +112,7 @@
 <footer class="foot">
   <div class="wrap footbar">
     <span>&copy; 2026 selinkurt.com</span>
-    <span class="foot-links"><a href="about.html#contact">contact</a> &middot; <a href="https://github.com/selinrena">github</a></span>
+    <span class="foot-links"><a href="mailto:kselin26@m.fudan.edu.cn">contact</a> &middot; <a href="https://github.com/selinrena">github</a> &middot; <a href="https://kaggle.com/selinkurt">kaggle</a> &middot; <a href="https://www.linkedin.com/in/selinrenakurt/">linkedin</a></span>
   </div>
 </footer>
 </body>

@@ -266,6 +266,65 @@ html.dark .shot {
   white-space: pre;
 }
 
+/* figure panels (z.ai framework-figure style) */
+.fig {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: flex-start;
+  min-height: 178px;
+  padding: 16px 16px 12px;
+}
+
+.figrow { align-items: center; display: flex; flex-wrap: wrap; gap: 8px; }
+
+.node {
+  background: color-mix(in srgb, var(--ink) 4%, var(--surface));
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  padding: 5px 9px;
+  white-space: nowrap;
+}
+
+.node.strong {
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--line));
+  color: var(--accent);
+  font-weight: 600;
+}
+
+html.dark .node.strong { border-color: #3E4C8C; color: #A5B4FC; }
+
+.node.dim { opacity: 0.55; text-decoration: line-through; }
+
+.node.say { background: color-mix(in srgb, var(--accent2) 10%, var(--surface)); border-color: color-mix(in srgb, var(--accent2) 40%, var(--line)); color: var(--accent2); }
+
+html.dark .node.say { color: #5EEAD4; }
+
+.arr { color: var(--muted); font-family: var(--mono); font-size: 0.9rem; }
+
+.figcap {
+  border-top: 1px dashed var(--line);
+  color: var(--muted);
+  font-size: 0.78rem;
+  margin: auto 0 0;
+  padding-top: 8px;
+}
+
+/* about page head with portrait */
+.head-grid {
+  align-items: center;
+  display: grid;
+  gap: 40px;
+  grid-template-columns: 1fr 170px;
+}
+
+.about-portrait { justify-content: flex-end; }
+
+.page-head .mono { font-size: 2rem; height: 150px; width: 150px; }
+
 .card-body { padding: 18px 20px 22px; }
 
 .card-body h3 {
@@ -365,4 +424,6 @@ html.dark .more { color: #A5B4FC; }
   .mono { height: 150px; width: 150px; font-size: 2.2rem; }
   .cards { grid-template-columns: 1fr; }
   .hero { padding-top: 56px; }
+  .head-grid { gap: 24px; grid-template-columns: 1fr 140px; }
+  .page-head .mono { height: 120px; width: 120px; font-size: 1.7rem; }
 }
