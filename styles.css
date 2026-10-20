@@ -428,7 +428,7 @@ html.dark .more { color: #A5B4FC; }
 
 .page-head h1 { font-size: clamp(2.2rem, 5vw, 3.2rem); }
 
-.prose { max-width: 680px; padding: 10px 0 40px; }
+.prose { max-width: 680px; margin: 0 auto; padding: 10px 0 40px; }
 
 .prose p { margin: 0 0 18px; }
 
@@ -498,6 +498,16 @@ html.dark .more { color: #A5B4FC; }
   margin: 0 0 10px;
   max-width: 640px;
 }
+
+/* reading pages: content column centered so the desktop is not half empty */
+body.narrow .page-head { text-align: center; }
+
+body.narrow .page-head .eyebrow { margin-bottom: 14px; }
+
+body.narrow .page-head .intro,
+body.narrow .page-head p { margin-left: auto; margin-right: auto; }
+
+body.narrow .journal-list .wrap { max-width: 760px; }
 
 /* responsive */
 @media (max-width: 900px) {
