@@ -351,6 +351,8 @@ html.dark .node.say { color: #5EEAD4; }
 
 .repo-btn {
   background: transparent;
+  cursor: pointer;
+  user-select: none;
   border: 1px solid var(--line);
   border-radius: 999px;
   color: var(--ink);
