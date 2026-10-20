@@ -1,9 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>NEXUS: a machine that talks with no attached preferences</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:#0f1218; --panel:#161b24; --panel2:#1d2430; --ink:#e8edf5; --dim:#9aa7ba;
@@ -12,10 +13,10 @@
   }
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--ink);
-    font:15px/1.5 system-ui,Segoe UI,Roboto,sans-serif;padding:28px 22px 60px}
-  h1{font-size:24px;margin:0 0 4px}
+    font:15.5px/1.65 Inter,system-ui,Segoe UI,Roboto,sans-serif;padding:28px 22px 60px}
+  h1{font-size:24px;margin:0 0 4px;font-family:"Fraunces",Georgia,serif;letter-spacing:.01em}
   .sub{color:var(--dim);margin:0 0 26px}
-  h2{font-size:17px;margin:34px 0 12px;padding-left:10px;border-left:3px solid var(--blue)}
+  h2{font-size:17px;margin:34px 0 12px;padding-left:10px;border-left:3px solid var(--blue);font-family:"Fraunces",Georgia,serif;letter-spacing:.01em}
   .wrap{max-width:1080px;margin:0 auto}
   .panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}
   .flow{display:flex;flex-direction:column;align-items:center;gap:0}
@@ -181,14 +182,13 @@
     <tr><td class="k">When a session resets?</td><td class="no">Total for memory and identity alike</td><td class="yes">Wake from files: cheap and visible</td></tr>
   </table>
 
-  <h2>6. The one-minute version</h2>
+  <h2>6. Summary</h2>
   <div class="panel">
     <ul class="diff">
-      <li><b>Same hardware:</b> llama.cpp runs both the raw base brain and the trained brain from the same folder.</li>
-      <li><b>Same method:</b> SELF is re-attached at every wake, and the CLERK picks at most 4 WORLD cards per reply.</li>
-      <li><b>Only swap:</b> which GGUF the server loads.</li>
-      <li><b>Why care:</b> if the tuned brain drifts the top line, preference training itself caused the drift: the tuned machine shifts to agree after pushback, where the base machine does not need to (Sharma et al., 2023).</li>
-      <li><b>And:</b> every other layer is public text, so anyone can read the design that produced the drift.</li>
+      <li><b>One machine, two brains:</b> the same llama.cpp folder runs the raw base brain and the tuned brain; swapping the GGUF file is the whole difference.</li>
+      <li><b>Same routine every session:</b> at wake the self files are read back, and at most four world cards are attached to each reply; nothing about that changes between the two runs.</li>
+      <li><b>What to watch:</b> if the tuned brain starts agreeing after pushback where the base one does not, the drift comes from the preference training itself (Sharma et al., 2023).</li>
+      <li><b>Readable by design:</b> every shaping layer is public text, so anyone can trace the design that produced the change.</li>
     </ul>
     <p class="cap">The full repo ships the corpus, the notebook, the wake system, and both brains: the before and the after.</p>
   </div>
