@@ -346,6 +346,30 @@ html.dark .node.say { color: #5EEAD4; }
   font-weight: 600;
 }
 
+/* repo link buttons in project cards */
+.repo-row { display: flex; flex-wrap: wrap; gap: 8px; margin: -2px 0 12px; }
+
+.repo-btn {
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.03em;
+  padding: 5px 12px;
+  text-decoration: none;
+  transition: border-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+
+.repo-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-1px);
+}
+
+html.dark .repo-btn:hover { color: #A5B4FC; border-color: #3E4C8C; }
+
 html.dark .more { color: #A5B4FC; }
 
 /* quote block */
