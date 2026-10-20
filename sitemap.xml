@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://selinkurt.com/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://selinkurt.com/index.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://selinkurt.com/about.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://selinkurt.com/journal/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://selinkurt.com/journal/hello.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://selinkurt.com/molty-architecture.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://selinkurt.com/nexus-architecture.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://selinkurt.com/why-this-design.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+</urlset>
