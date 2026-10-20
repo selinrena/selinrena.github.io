@@ -486,3 +486,56 @@ footer {
   .blob, .avatar-ring::before { animation: none; }
   .reveal { opacity: 1; transform: none; transition: none; }
 }
+
+.projects {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.pcard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 22px;
+  box-shadow: var(--shadow);
+  display: block;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.pcard:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+  box-shadow: var(--shadow);
+}
+
+.pcard .kicker {
+  display: block;
+  font-family: "Sora", sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.55rem;
+}
+
+.pcard h3 {
+  font-size: 1.05rem;
+  margin-bottom: 0.4rem;
+}
+
+.pcard p {
+  color: var(--muted);
+  font-size: 0.88rem;
+  margin-bottom: 0.7rem;
+}
+
+.pcard .go {
+  color: var(--accent);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+@media (max-width: 760px) {
+  .projects { grid-template-columns: 1fr; }
+}

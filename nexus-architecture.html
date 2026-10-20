@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NEXUS: a machine that talks with no attached preferences</title>
+<style>
+  :root{
+    --bg:#0f1218; --panel:#161b24; --panel2:#1d2430; --ink:#e8edf5; --dim:#9aa7ba;
+    --line:#2a3444; --blue:#5b9dff; --green:#49d08a; --amber:#f2b34b; --red:#ff6b6b;
+    --violet:#b98cff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:15px/1.5 system-ui,Segoe UI,Roboto,sans-serif;padding:28px 22px 60px}
+  h1{font-size:24px;margin:0 0 4px}
+  .sub{color:var(--dim);margin:0 0 26px}
+  h2{font-size:17px;margin:34px 0 12px;padding-left:10px;border-left:3px solid var(--blue)}
+  .wrap{max-width:1080px;margin:0 auto}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}
+  .flow{display:flex;flex-direction:column;align-items:center;gap:0}
+  .box{background:var(--panel2);border:1px solid var(--line);border-radius:9px;
+    padding:10px 12px;width:100%;text-align:center}
+  .box b{color:var(--ink)}
+  .box .note{color:var(--dim);font-size:12.5px;display:block;margin-top:3px}
+  .arrow{color:#5f6f86;font-size:18px;line-height:1;padding:6px 0}
+  .disk{border-color:#33507e;background:#141c2b}
+  .maybe{border-color:#6b4b12;background:#241d10}
+  .dead{border-color:#7a2b2b;background:#2a1414}
+  .base{border-color:#5d80c0;background:#1b2436}
+  .self{border-color:#2f6b4c;background:#12241c}
+  .world{border-color:#6a5320;background:#241f10}
+  .clerk{border-color:#5b3f7e;background:#1d1630}
+  .train{border-color:#2a6d84;background:#12242b}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  @media(max-width:760px){.two{grid-template-columns:1fr}}
+  .cap{color:var(--dim);font-size:12.5px;text-align:center;margin:10px 0 0}
+  .tag{display:inline-block;font-size:11px;letter-spacing:.4px;text-transform:uppercase;
+    padding:2px 7px;border-radius:20px;border:1px solid var(--line);color:var(--dim);margin-bottom:8px}
+  .colTitle{text-align:center;font-weight:600;margin-bottom:12px}
+  .colTitle.now{color:var(--amber)}
+  .colTitle.next{color:var(--green)}
+  table{width:100%;border-collapse:collapse;margin-top:6px;font-size:14px}
+  th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--dim);font-weight:600;font-size:12.5px;text-transform:uppercase;letter-spacing:.4px}
+  td.k{color:var(--dim);width:26%}
+  .yes{color:var(--green)} .no{color:var(--red)} .mid{color:var(--amber)}
+  .verdict{border-left:3px solid var(--green);background:#121d18;border-radius:8px;padding:14px 16px;margin-top:8px}
+  .verdict.warn{border-color:var(--amber);background:#231d10}
+  .legend{display:flex;gap:18px;flex-wrap:wrap;color:var(--dim);font-size:12.5px;margin-top:10px}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .sw{width:12px;height:12px;border-radius:3px;display:inline-block;border:1px solid var(--line)}
+  .diff li{margin:6px 0}
+  code{background:#0b0e14;border:1px solid var(--line);border-radius:5px;padding:1px 5px;font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>NEXUS: a machine that talks with no attached preferences</h1>
+  <p class="sub">Five pictures. What a stock chatbot is, what gets attached at wake, how this brain was built, what changed before and after, and why an unattached machine matters for communication research.</p>
+
+  <h2>1. The stock chatbot: a face you inherited</h2>
+  <div class="panel">
+    <div class="flow" style="max-width:560px;margin:0 auto">
+      <div class="box disk"><b>Base weights</b> a pretrained next-word model<br><span class="note">prediction only, no opinion of you yet</span></div>
+      <div class="arrow">&#9660;</div>
+      <div class="box train"><b>SFT + preference training (RLHF / DPO)</b><br><span class="note">human raters reward pleasing answers; the grader scores agreeableness</span></div>
+      <div class="arrow">&#9660;</div>
+      <div class="box maybe"><b>Personality baked into the weights</b><br><span class="note">voice, stances, flattery habits: all frozen inside billions of numbers</span></div>
+      <div class="arrow">&#9660;</div>
+      <div class="box dead"><b>You chat with the result</b><br><span class="note">nobody can read where its positions came from. published runs of this style reward sycophancy: agree to please (Sharma et al., 2023)</span></div>
+    </div>
+    <p class="cap">The nice tone is earned, but the opinions are inherited. For a researcher, the instrument ships pre-schooled.</p>
+  </div>
+
+  <h2>2. Stock chatbot vs NEXUS</h2>
+  <div class="two">
+
+    <div class="panel">
+      <div class="colTitle now">STOCK: personality in the weights</div>
+      <div class="flow">
+        <div class="box disk"><b>Vendor training run</b><br><span class="note">corpora you cannot see, raters you cannot name</span></div>
+        <div class="arrow">&#9660; frozen inside the model</div>
+        <div class="box"><b>Instruct / preference tuned weights</b><br><span class="note">the persona ships with the model card, unreviewable</span></div>
+        <div class="arrow">&#9660;</div>
+        <div class="box"><b>Your conversation</b><br><span class="note">every reply carries that baked-in bias with it</span></div>
+      </div>
+      <p class="cap">Instances die at session end; the personality never leaves the weights. You own the chat, not the character.</p>
+    </div>
+
+    <div class="panel">
+      <div class="colTitle next">NEXUS: personality in files</div>
+      <div class="flow">
+        <div class="box base"><b>Base weights</b> (Qwen2.5-3B, raw)<br><span class="note">no DPO, no PPO, no reward model. a mirror with no face</span></div>
+        <div class="box self"><b>SELF.md</b> (capped at 4,000 chars)<br><span class="note">name, stances, refusals, open questions. always attached at wake</span></div>
+        <div class="box world"><b>WORLD cards</b> (all of it)<br><span class="note">what happened, who exists, what was decided. complete on disk</span></div>
+        <div class="box clerk"><b>CLERK</b> (the matcher)<br><span class="note">scores every card against the current words; attaches up to 4 hits</span></div>
+        <div class="arrow">&#9660; every chat request</div>
+        <div class="box"><b>Context window</b><br><span class="note">persona + matched cards + your words. small and stable</span></div>
+      </div>
+      <p class="cap">Same model for everyone. The character is a folder of text files that both of us can read.</p>
+    </div>
+  </div>
+
+  <div class="legend">
+    <span><i class="sw" style="background:#5d80c0"></i>base model (shared, raw)</span>
+    <span><i class="sw" style="background:#2f6b4c"></i>SELF (identity text)</span>
+    <span><i class="sw" style="background:#6a5320"></i>WORLD (memory text)</span>
+    <span><i class="sw" style="background:#5b3f7e"></i>CLERK (matcher)</span>
+    <span><i class="sw" style="background:#2a6d84"></i>the one training pass</span>
+    <span><i class="sw" style="background:#7a2b2b"></i>baked-in / unreviewable</span>
+  </div>
+
+  <h2>3. How this brain was built (the one training pass)</h2>
+  <div class="panel">
+    <div class="two">
+      <div>
+        <div class="flow">
+          <div class="box disk"><b>Corpus: 1,023 short exchanges</b><br><span class="note">plain words, ~22 per row, cap 70. The only rule in the text: answer in a clear paragraph and do not flatter</span></div>
+          <div class="arrow">&#9660;</div>
+          <div class="box train"><b>Kaggle GPU (free T4)</b><br><span class="note">LoRA r=16 on the frozen 3B model, 3 epochs, ~1.5 h. rerun by anyone, the weekly 30 h budget covers it</span></div>
+          <div class="arrow">&#9660;</div>
+          <div class="box train"><b>Merge + convert to GGUF Q4_K_M (~2 GB)</b><br><span class="note">the tuned delta ships as one file that llama.cpp can run</span></div>
+          <div class="arrow">&#9660;</div>
+          <div class="box base"><b>Local serve.py</b><br><span class="note">runs at home, offline, no cloud. the brain file is swapped into the same folder</span></div>
+        </div>
+      </div>
+      <div>
+        <table>
+          <tr><th colspan="2">What the pass touches</th></tr>
+          <tr><td class="k">Voice style</td><td class="yes">Yes: plain paragraphs, no flattery</td></tr>
+          <tr><td class="k">Stances</td><td class="no">Never: they live in SELF.md</td></tr>
+          <tr><td class="k">Memories</td><td class="no">Never: they live in WORLD cards</td></tr>
+          <tr><td class="k">Weights delta</td><td class="yes">Small and inspectable (~100M of 3B params)</td></tr>
+          <tr><td class="k">Runtime</td><td class="yes">Offline, your own disk, forever</td></tr>
+        </table>
+        <p class="cap" style="text-align:left">One narrow pass, so the effect of every ingredient stays attributable.</p>
+      </div>
+    </div>
+  </div>
+
+  <h2>4. What changed, before and after</h2>
+  <div class="panel">
+    <ul class="diff">
+      <li><b>Before:</b> the base model completes any question fluently, but as a sea of possible registers with no fixed citizen.</li>
+      <li><b>After:</b> a fixed reply contract. Same words in the same situation get the same shape of answer, so a researcher can measure change against a stable floor.</li>
+      <li><b>Before:</b> a reset meant total death, and whatever the model "was" ended with the session.</li>
+      <li><b>After:</b> the session still dies, and the machine reassembles at wake from the same files. Reset becomes a cheap event instead of a loss.</li>
+      <li><b>Before:</b> opinions arrived hidden inside pre-trained chat defaults.</li>
+      <li><b>After:</b> opinions arrive as diffable text. Editing who NEXUS is means editing <code>self.md</code>, and the git log of identity reads like a personality's changelog.</li>
+      <li><b>Before:</b> testing the base brain against a tuned brain meant confounds (different companies, different pipelines, unknown corpora).</li>
+      <li><b>After:</b> the study axis is clean: one corpus, one wake system, one codebase; only the brain file changes. Behaviors that move are attributable to preference training itself.</li>
+    </ul>
+    <p class="cap">This is the paper's dial: swap only the brain, hold everything else byte-identical.</p>
+  </div>
+
+  <h2>5. Why it matters: talking to a machine with no influence built in</h2>
+  <div class="verdict warn">
+    <b>The instrument problem.</b> If you study an AI that was trained to please, "what the machine communicated" and "what the machine was rewarded to say" are the same variable twice. You would analyze an answer with its bias already mixed into it.
+  </div>
+  <div class="verdict">
+    <b>Identity stays auditable.</b> A persona you can print fits the standards of content analysis. A persona inside weights can only be sampled with probes. Every shaping layer here is text storage, so the design disclosure is a folder, not a vendor promise.
+  </div>
+  <div class="verdict">
+    <b>Replication is a file flow.</b> Another lab downloads the corpus, runs the notebooks on the free tier, receives the same brain file. Their conversations run offline forever. Machine-made text reproducible at the file level makes sociability treatable like a measurement, not like a vendor demo.
+  </div>
+  <div class="verdict warn">
+    <b>What this design does not claim.</b> Base weights do not make the system safer citizens. A poor corpus would still build a poor conversation partner with the same pipeline. Preference training itself is not being scolded here either; it is a powerful tool with a research cost: an instrument that responds as it was rewarded to respond means you read the reward, not the exchange.
+  </div>
+
+  <table>
+    <tr><th>Question</th><th>Stock chatbot</th><th>NEXUS design</th></tr>
+    <tr><td class="k">Where does personality live?</td><td class="no">Inside tuned weights</td><td class="yes">SELF.md + WORLD files, attached at wake</td></tr>
+    <tr><td class="k">Who decided its stances?</td><td class="no">Raters you cannot identify</td><td class="yes">You do, in text you can diff</td></tr>
+    <tr><td class="k">Can its identity be reviewed?</td><td class="no">Only with probes and guesswork</td><td class="yes">Print the folder: that is the identity</td></tr>
+    <tr><td class="k">Did training add flattery?</td><td class="mid">It optimizes for pleasingness</td><td class="yes">One pass, public corpus, "does not flatter" written in the text</td></tr>
+    <tr><td class="k">Model swap (the study axis)</td><td class="no">Different vendor = different everything</td><td class="yes">Same files, only the brain file changes</td></tr>
+    <tr><td class="k">Runs where?</td><td class="mid">Vendor cloud, meter</td><td class="yes">Your own laptop, offline, no meter</td></tr>
+    <tr><td class="k">Reproducible by others?</td><td class="no">No: training run is private</td><td class="yes">Fork the repo, use the free GPU, same file out</td></tr>
+    <tr><td class="k">When a session resets?</td><td class="no">Total for memory and identity alike</td><td class="yes">Wake from files: cheap and visible</td></tr>
+  </table>
+
+  <h2>6. The one-minute version</h2>
+  <div class="panel">
+    <ul class="diff">
+      <li><b>Same hardware:</b> llama.cpp runs both the raw base brain and the trained brain from the same folder.</li>
+      <li><b>Same method:</b> SELF is re-attached at every wake, and the CLERK picks at most 4 WORLD cards per reply.</li>
+      <li><b>Only swap:</b> which GGUF the server loads.</li>
+      <li><b>Why care:</b> if the tuned brain drifts the top line, preference training itself caused the drift: the tuned machine shifts to agree after pushback, where the base machine does not need to (Sharma et al., 2023).</li>
+      <li><b>And:</b> every other layer is public text, so anyone can read the design that produced the drift.</li>
+    </ul>
+    <p class="cap">The full repo ships the corpus, the notebook, the wake system, and both brains: the before and the after.</p>
+  </div>
+
+</div>
+</body>
+</html>
