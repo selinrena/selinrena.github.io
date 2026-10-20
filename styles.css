@@ -196,6 +196,7 @@ h1 {
 }
 
 .card {
+  position: relative;
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -203,9 +204,28 @@ h1 {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  text-decoration: none;
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
+
+/* full-card click target sitting under the button row */
+.card-hit {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  text-indent: -200%;
+  white-space: nowrap;
+  font-size: 0;
+}
+
+.card-hit:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -3px;
+}
+
+.card-body, .bar, .shot { position: relative; z-index: 0; }
+
+.repo-row { position: relative; z-index: 2; }
 
 .card:hover {
   border-color: var(--accent);
