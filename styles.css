@@ -417,6 +417,50 @@ html.dark .more { color: #A5B4FC; }
 
 .backlink:hover { color: var(--accent); }
 
+/* journal */
+.journal-list { padding: 20px 0 70px; }
+
+.jentry {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  display: block;
+  padding: 22px 26px 20px;
+  margin: 0 0 18px;
+  text-decoration: none;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.jentry:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+  box-shadow: 0 16px 40px rgba(28, 31, 46, 0.09);
+}
+
+.jdate {
+  color: var(--accent);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin: 0 0 8px;
+}
+
+.jtitle {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+  margin: 0 0 8px;
+}
+
+.jteaser {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin: 0 0 10px;
+  max-width: 640px;
+}
+
 /* responsive */
 @media (max-width: 900px) {
   .hero-grid { grid-template-columns: 1fr; }
