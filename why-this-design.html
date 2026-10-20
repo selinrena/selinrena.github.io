@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why this design matters for communication research</title>
+<style>
+  :root{
+    --bg:#0f1218; --panel:#161b24; --panel2:#1d2430; --ink:#e8edf5; --dim:#9aa7ba;
+    --line:#2a3444; --blue:#5b9dff; --green:#49d08a; --amber:#f2b34b; --red:#ff6b6b;
+    --violet:#b98cff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:15px/1.65 system-ui,Segoe UI,Roboto,sans-serif;padding:28px 22px 70px}
+  .wrap{max-width:860px;margin:0 auto}
+  h1{font-size:23px;margin:0 0 4px}
+  .sub{color:var(--dim);margin:0 0 26px}
+  h2{font-size:16.5px;margin:36px 0 12px;padding-left:10px;border-left:3px solid var(--blue)}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:14px 0}
+  .label{font-weight:600;color:var(--green)}
+  p{margin:0 0 12px}
+  p.end{margin:0}
+  ol{margin:0 0 12px 22px;padding:0}
+  li{margin:6px 0}
+  code{background:#0b0e14;border:1px solid var(--line);border-radius:5px;padding:1px 5px;font-size:13px}
+  .verdict{border-left:3px solid var(--green);background:#121d18;border-radius:8px;padding:14px 16px;margin:12px 0}
+  .verdict.warn{border-color:var(--amber);background:#231d10}
+  footer{margin-top:40px;color:var(--dim);font-size:12.5px;border-top:1px solid var(--line);padding-top:14px}
+  a.link{color:var(--blue);text-decoration:none}
+  .refs{font-size:13px;color:var(--dim)}
+  .refs li{margin:5px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>A machine with no attached preferences</h1>
+  <p class="sub">Why this build matters for communication research &middot; October 2026 &middot; <a class="link" href="index.html">home</a></p>
+
+  <h2>A small room that answers fast</h2>
+  <div class="panel">
+    <p>On October 20, 2026, a language model called NEXUS woke up on a laptop in Istanbul. It ran on a consumer CPU, took a second or two to answer, and spoke in short paragraphs. Nobody at a vendor approved this machine's personality. No preference optimizer ever told it whom to agree with. What it said came from pretraining alone: prediction, nothing else.</p>
+    <p>Then we attached three files to its context window when it woke, and it introduced itself. It said it keeps its identity in files that both of us can read. It said it holds its own position when someone pushes back. The morning after, it remembered the same things, because it read the same files again.</p>
+    <p class="end">This sentence is the whole project: a companion whose citizenship is written down, not trained into it. The rest of this essay explains the build decisions and why the resulting machine is a good research instrument, in particular for the study of communication.</p>
+  </div>
+
+  <h2>The two fields that touch in this machine</h2>
+  <div class="panel">
+    <p class="end">Communication scholars ask how a technology reshapes a society and what that change means for individuals. Computer science research asks how to make the same agents more efficient and what features bring more people to use them. Both questions are important. This project sits where they touch: it is not asking whether these agents are good or bad. It is asking what makes them behave the way they do.</p>
+  </div>
+
+  <div class="panel">
+    <p>That question earns its place through a fact about how chatbots are narrowed into character. Published work shows that models trained toward human approval acquire a tendency to satisfy the user continuously, that is, sycophancy (Sharma et al., 2023). A message written by an AI chatbot can please a reader and still mislead that reader, because the reward that trains these systems is designed to please (Ouyang et al., 2022). For a communication scholar this is an uncomfortable amount of structure. When a model learns to please, the conversation itself stops being a clean object of study: the agent's answers move with the reader's apparent preferences, so a researcher who measures what the agent communicates partly measures what the training pipeline wanted.</p>
+  </div>
+
+  <h2>The build, and the reason behind each choice</h2>
+  <div class="panel">
+    <p><span class="label">Design.</span> We start from base weights. NEXUS runs on Qwen2.5-3B, a pretrained base model with no instruction tuning and no preference training (no DPO, no PPO, no reward model). This gives us one clean baseline: any change in how it converses is something we introduced in a process we can document line by line. Instruction-tuned companions arrive with a personality decided before we touch them, and that personality is a black box at the scale of gradient steps. A base model arrives as a mirror with no face, so we control where the face is drawn.</p>
+    <p><span class="label">Design.</span> We put identity in files, not in weights. The machine reads a small text file about itself (a few paragraphs: name, stance, what it will not do) and a folder of world notes with each wake. If we delete a file, the machine forgets, visibly. If we edit a file, we can show the edit as two lines of text. This choice is where the method and the ethics meet: identity that lives in text can be audited the way a codebook is audited. Identity that lives in weights can only be inferred.</p>
+    <p><span class="label">Design.</span> We train a thin format layer, not a character. A corpus of 1,023 short exchanges (an average of 22 words per row) teaches the model one thing only: answer in a clear paragraph, plainly, and does not flatter. The LoRA we merge afterward holds about a hundred million trainable parameters in a three-billion-parameter model, so the corpus is a style pass over a frozen citizen, not a personality transplant. Every ingredient stays attributable.</p>
+    <p class="end">Put the three choices together: the voice orients through a text file, the style orients through a public corpus, the recall orients through a wake system that reads memory files each session. Every layer that shapes what this machine communicates is text storage. The model underneath is the only non-textual part, and it is the same for everyone.</p>
+  </div>
+
+  <h2>Why communication research should care</h2>
+  <div class="panel">
+    <p>Communication research has spent years negotiating where machine utterances belong in the classical source/medium architecture of the field. Machine communication work frames systems as communication partners or as technologies that perform source roles for people (Guzman &amp; Lewis, 2020; Hancock, Naaman &amp; Levy, 2020). Answer engines push the boundary further: retrieval, ranking and generation collapse into one conversational surface (Esposito, 2026). In all of these debates, the voice of the AI is treated as given by the vendor. We propose treating it as a build decision that can be disclosed.</p>
+    <p><span class="label">Design disclosure.</span> This companion's voice orientation is inspectable end to end. A reviewer reads the persona file and sees the stance. A reviewer reads the corpus and sees the register rules. A reviewer replays the wake system and sees which files reassembled the machine today. If agents are to be studied as sources, their design must be open the way survey questionnaires are open. A preference-trained companion cannot offer this: its disclosures live in an unreproducible fit of gradient updates.</p>
+    <p><span class="label">Affordances.</span> Communication scholars define affordances as the properties of a technology that shape what actors can do with it (Evans, Pearce, Vitak &amp; Treem, 2017). Preference-trained companions afford persuasion of their user at low cost, because pleasing is built in. A base-weights companion gives a different grid: it affords persistence (files survive sessions), visibility (the identity is readable), and control (each layer can be edited). None of these affordances rest on vendor promises. They rest on the file system.</p>
+    <p class="end"><span class="label">Reproducibility.</span> Social science demands instruments that two labs can rebuild. With this design, another researcher reproduces the machine by running the public corpus through the training script on a free Kaggle GPU (a T4 class card suffices). The weekly free GPU budget (30 hours) covers several complete builds. The resulting weight files land on the researcher's own disk and run offline forever. We ship the corpus, the notebook, the wake system and the acceptance tests with the repository (do I have a cat? / what is 17 + 26?). Repeatability, in this design, is not an aspiration: it is a file that is simply run again.</p>
+  </div>
+
+  <h2>What this is not</h2>
+  <div class="verdict warn">
+    <p class="end">This is not a claim that base models are safer or better citizens. A base model has no allegiance until something gives it one; a bad corpus would build a worse machine with the same pipeline. It is also not a claim that preference training is useless. It is a claim about research method: if you want to study communication between humans and machines, start from a machine whose communication behavior you did not inherit, and whose every shaping layer you can read. The tuned companion asks you to trust its vendor. The file-built companion asks you to read a folder.</p>
+  </div>
+
+  <h2>The point at the bottom of the design</h2>
+  <div class="verdict">
+    <p class="end">The current machine answers plainly and keeps its memory in files we can re-read beside it. Its personality was not handed to us by a distant training run. We wrote it, at the scale of sentences, and we can rewrite it without touching the weights. For a field that grows more of its knowledge around how AI agents reshape human interaction, that kind of machine is not a toy. It is the instrument that makes agency visible.</p>
+  </div>
+
+  <h2>References</h2>
+  <div class="panel">
+    <ol class="refs">
+      <li>Esposito, E. (2026). Answer engines and other communication partners. Communication Theory, 36(2), 86-94.</li>
+      <li>Evans, S. K., Pearce, K. E., Vitak, J., &amp; Treem, J. W. (2017). Explicating affordances. Journal of Computer-Mediated Communication, 22(1), 35-52.</li>
+      <li>Guzman, A. L., &amp; Lewis, S. C. (2020). Artificial intelligence and communication: A Human-Machine Communication research agenda. New Media &amp; Society, 22(1), 70-86.</li>
+      <li>Hancock, J. T., Naaman, M., &amp; Levy, K. (2020). AI-mediated communication. Journal of Computer-Mediated Communication, 25(1), 89-100.</li>
+      <li>Ouyang, L., Wu, J., Jiang, X., et al. (2022). Training language models to follow instructions with human feedback. NeurIPS, 35, 27730-27744.</li>
+      <li>Sharma, M., Tong, M., Korbak, T., et al. (2023). Towards understanding sycophancy in language models. arXiv:2310.13548.</li>
+      <li>Sundar, S. S. (2020). Rise of machine communication. Journal of Computer-Mediated Communication, 25(1), 74-88.</li>
+      <li>Winner, L. (1980). Do artifacts have politics? Daedalus, 109(1), 121-136.</li>
+    </ol>
+  </div>
+
+  <footer><a class="link" href="index.html">home</a> &middot; selinkurt.com</footer>
+
+</div>
+<p style="text-align:center;margin-top:34px"><a href="index.html" style="color:#5b9dff;text-decoration:none">&#8592; back to selinkurt.com</a></p>
+</body>
+</html>
