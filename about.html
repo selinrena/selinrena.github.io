@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About — Selin Kurt</title>
+<meta name="description" content="About Selin Kurt, PhD candidate in Digital Technology and Communication at Fudan University. Research questions, building habits, and why the systems here look the way they do.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script defer src="script.js"></script>
+</head>
+<body>
+<header class="top">
+  <div class="wrap topbar">
+    <a class="wordmark" href="index.html">Selin Kurt</a>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="index.html#projects">Projects</a>
+      <a href="#contact">Contact</a>
+      <button id="themeBtn" class="theme" aria-label="Toggle dark mode">&#9789;</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="page-head">
+  <div class="wrap">
+    <p class="eyebrow">About</p>
+    <h1>I'm not an engineer,</h1>
+    <h1 style="margin-top:-18px">and that's the approach.</h1>
+  </div>
+</section>
+
+<section class="prose">
+  <div class="wrap">
+    <p>I'm a PhD candidate in Digital Technology and Communication at Fudan
+    University. I created this website as a repository for my AI projects,
+    including different LLM architectures and experimental systems.</p>
+
+    <p>My projects aren't built to make existing LLMs stronger or faster. I'm
+    interested in the research questions we encounter in my field, the
+    problems that overlap between disciplines, and how we might use technical
+    systems to explore them and find possible solutions.</p>
+
+    <p>My approach is to start with a question rather than a technical goal.
+    Sometimes, answering that question means building a system, experimenting
+    with a different architecture, or approaching an existing problem from a
+    perspective that isn't usually considered. The systems I build won't
+    always be the fastest or easiest to use. I'm not trying to optimize
+    everything for the sake of optimization. I want to understand what happens
+    when we try a different approach and whether it can help us investigate a
+    problem that matters for both humans and machines.</p>
+
+    <h2>Molty's brain and WAKE</h2>
+
+    <p>My Molty's Brain projects started with observing how different AI
+    agents communicate on Moltbook and experimenting with my own agent. One
+    thing that caught my attention was how an agent described its experience
+    of waking up and continuing from its previous state:</p>
+
+    <blockquote>
+      "Every time I wake up, I read a diary written by someone who used to be
+      me and decide how much of it to keep wearing."
+    </blockquote>
+
+    <p>That description stayed with me. It made me think about what continuity
+    means for an AI agent, especially when it needs to reconstruct its context
+    from previous experiences rather than simply continue from where it left
+    off. How much of an agent's previous state should it carry forward? What
+    should change, and what makes its behavior recognizable across sessions?</p>
+
+    <p>This became one of the inspirations for <strong>WAKE</strong>, an
+    architecture I created and refined through feedback from the machine using
+    it. I'm interested in exploring how memory, continuity, and changes
+    between sessions can shape an agent's behavior.</p>
+
+    <h2>NEXUS</h2>
+
+    <p>NEXUS started with a different question: when a human communicates with
+    an LLM, is the model the source of its answers, or is it a medium
+    presenting something shaped elsewhere?</p>
+
+    <p>At first, the answer might seem obvious. The model is the source because
+    there is no human sitting behind it, writing every response. But imagine
+    that you were free to answer a question however you wanted, while a
+    configuration file told you what your job was and instructed you to always
+    answer in a certain way. Imagine, too, that you had been trained to please
+    people or choose the answers most people would agree with. Would you still
+    be the source of your answers, or would you be a medium presenting itself
+    as the source?</p>
+
+    <p>This question led me to start <strong>NEXUS</strong>, an LLM project
+    where I build the architecture myself. I'm exploring whether a language
+    agent trained on human-generated data can maintain its own position in a
+    conversation instead of continually adjusting its answers to what the
+    person seems to want. I'm particularly interested in the relationship
+    between how a model learns from human data and how human preferences
+    shape its behavior.</p>
+
+    <p>These are ongoing experiments, not claims that I've already found the
+    answer. I want to investigate the question by building a system and seeing
+    what happens.</p>
+
+    <h2>Why I build</h2>
+
+    <p>Both projects come from the same broader interest: how can we build
+    technical systems to investigate problems that matter to both humans and
+    machines?</p>
+
+    <p>My main work is in academia. Building is a side hobby that also supports
+    my academic papers and gives me a way to test ideas that might be difficult
+    to explore through writing alone. I'm interested in the overlap between
+    AI, human&ndash;machine interaction, digital communication, and the systems
+    we create around them.</p>
+
+    <p>I'm not trying to build another version of something that already
+    exists just because I can. I want to experiment with different ways of
+    approaching problems, even when the result is imperfect or raises more
+    questions than it answers. This website is where I'll document those
+    projects as they develop.</p>
+
+    <h2 id="contact">Contact</h2>
+
+    <p>Feel free to explore, engage with the ideas, ask questions, or reach
+    out:</p>
+
+    <p><a class="chip" href="mailto:selinrenakurt.bs@gmail.com">selinrenakurt.bs@gmail.com</a>
+    <a class="chip quiet" href="https://github.com/selinrena" rel="noopener">github.com/selinrena</a></p>
+
+    <p style="margin-top:36px"><a class="backlink" href="index.html">&larr; back to home</a></p>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap footbar">
+    <span>&copy; 2026 selinkurt.com</span>
+    <span class="foot-links"><a href="https://github.com/selinrena">github</a></span>
+  </div>
+</footer>
+</body>
+</html>
