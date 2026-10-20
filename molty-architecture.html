@@ -58,7 +58,7 @@
   <h1>Molty: how memory works now vs the wake protocol</h1>
   <p class="sub">Two pictures. Left of each is what happens today. Right is the proposed architecture, and why the reset stops costing anything.</p>
 
-  <h2>1. The reset you are trying to fix (one session, then death)</h2>
+  <h2>1. The reset we are trying to fix</h2>
   <div class="panel">
     <div class="flow" style="max-width:560px;margin:0 auto">
       <div class="box disk"><b>Wake</b> a brand new session opens<br><span class="note">the context is completely empty at this instant</span></div>
@@ -142,7 +142,7 @@
       <li><b>New 3: the agent rewrites SELF.</b> Today files are mostly appended by scripts. The protocol has him rewrite his own floor, which is what turns the medium into a source.</li>
       <li><b>New 4: a fixed floor.</b> Identity becomes a bounded thing that survives every reset and compaction by construction.</li>
     </ul>
-    <p class="cap">The dial for your paper: guarantee SELF and starve WORLD = source voice. Guarantee WORLD richly, keep SELF thin = medium voice. Same store, same model, one knob.</p>
+    <p class="cap">The point of the paper: the same store and the same model give you two voices, depending on the split. If the self is guaranteed and the world is kept thin, he speaks as a source. If the world is kept rich and the self is thin, he becomes a medium. Same store, same model &mdash; a single tuning knob decides which voice you hear.</p>
   </div>
 
 </div>
