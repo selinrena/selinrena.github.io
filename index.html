@@ -80,24 +80,46 @@
       </div>
 
       <div class="card">
-        <div class="bar"><span class="dots"><i></i><i></i><i></i></span><span class="bar-label">nexus</span></div>
+        <div class="bar"><span class="dots"><i></i><i></i><i></i></span><span class="bar-label">nexus v2</span></div>
+        <div class="shot fig">
+          <div class="figrow"><span class="node say">"what is moltbook?"</span></div>
+          <div class="figrow"><span class="node">check files</span><span class="arr">&rarr;</span><span class="node dim">no line matches</span></div>
+          <div class="figrow"><span class="node">check web</span><span class="arr">&rarr;</span><span class="node dim">source labelled</span></div>
+          <div class="figrow"><span class="node strong">answer, or "I don't know"</span></div>
+          <p class="figcap">Fig. 2: check first, then say what you know</p>
+        </div>
+        <div class="card-body">
+          <h3><a href="nexus-architecture-v2.html">NEXUS V2</a></h3>
+          <div class="repo-row">
+            <a class="repo-btn" href="https://www.kaggle.com/code/selinkurt/nexus-v2" target="_blank" rel="noopener">Kaggle &rarr;</a>
+          </div>
+          <p>Checks before it answers: facts from its own files (including
+          "no line matches"), a web lookup with labelled sources when
+          allowed, and guards that refuse to ship a number the fetched
+          lines do not contain. Final battery: 37 pass / 11 fail, zero
+          fabricated answers.</p>
+          <a class="more" href="nexus-architecture-v2.html">Read the V2 architecture &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="bar"><span class="dots"><i></i><i></i><i></i></span><span class="bar-label">nexus v1</span></div>
         <div class="shot fig">
           <div class="figrow"><span class="node say">"do you like it?"</span></div>
           <div class="figrow"><span class="node">base path</span><span class="arr">&rarr;</span><span class="node dim">"sure, whatever you think"</span></div>
           <div class="figrow"><span class="node strong">nexus</span><span class="arr">&rarr;</span><span class="node strong">"no. and I'll tell you why"</span></div>
-          <p class="figcap">Fig. 2: answering from a position</p>
+          <p class="figcap">Fig. 3: answering from a position</p>
         </div>
         <div class="card-body">
-          <h3><a href="nexus-architecture-v2.html">NEXUS</a></h3>
+          <h3><a href="nexus-architecture.html">NEXUS V1</a></h3>
           <div class="repo-row">
-            <a class="repo-btn" href="https://www.kaggle.com/code/selinkurt/nexus-v2" target="_blank" rel="noopener">Kaggle V2 &rarr;</a>
-            <a class="repo-btn" href="https://www.kaggle.com/code/selinkurt/nexus-v1" target="_blank" rel="noopener">Kaggle V1 &rarr;</a>
-            <a class="repo-btn" href="nexus-architecture.html">v1 page &rarr;</a>
+            <a class="repo-btn" href="https://www.kaggle.com/code/selinkurt/nexus-v1" target="_blank" rel="noopener">Kaggle &rarr;</a>
           </div>
-          <p>A local companion trained not to inherit the pleasing instinct.
-          If you ask it something, it answers from a position, not a mirror.
-          V2 checks before it answers and never ships invented facts.</p>
-          <a class="more" href="nexus-architecture-v2.html">Read the V2 architecture &rarr;</a>
+          <p>The original: a local companion trained not to inherit the
+          pleasing instinct. Identity in files, one narrow pass, offline,
+          no preference layer. Preserved as it was, including what the
+          first runs showed and the sketch V2 was built from.</p>
+          <a class="more" href="nexus-architecture.html">Read the v1 architecture &rarr;</a>
         </div>
       </div>
 
