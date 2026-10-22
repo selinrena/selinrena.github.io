@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NEXUS V2: check first, then say what you know</title>
+<meta name="keywords" content="Selin Kurt, Selin Rena Kurt, Selinrena Kurt, Fudan University, AI agents, agent memory, WAKE, NEXUS, human-machine communication">
+<link rel="canonical" href="https://selinkurt.com/nexus-architecture-v2.html">
+<meta property="og:site_name" content="Selin Kurt">
+<meta property="og:title" content="NEXUS V2: check first, then say what you know">
+<meta property="og:description" content="What changed from NEXUS v1 and why: a runtime that checks before it answers, three training rounds with what each taught, and the tests behind every claim.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://selinkurt.com/nexus-architecture-v2.html">
+<meta property="og:image" content="https://selinkurt.com/assets/selin.jpg">
+<meta name="twitter:card" content="summary">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0f1218; --panel:#161b24; --panel2:#1d2430; --ink:#e8edf5; --dim:#9aa7ba;
+    --line:#2a3444; --blue:#5b9dff; --green:#49d08a; --amber:#f2b34b; --red:#ff6b6b;
+    --violet:#b98cff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:15.5px/1.65 Inter,system-ui,Segoe UI,Roboto,sans-serif;padding:28px 22px 60px}
+  h1{font-size:24px;margin:0 0 4px;font-family:"Fraunces",Georgia,serif;letter-spacing:.01em}
+  .sub{color:var(--dim);margin:0 0 26px}
+  h2{font-size:17px;margin:34px 0 12px;padding-left:10px;border-left:3px solid var(--blue);font-family:"Fraunces",Georgia,serif;letter-spacing:.01em}
+  .wrap{max-width:1080px;margin:0 auto}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}
+  .flow{display:flex;flex-direction:column;align-items:center;gap:0}
+  .box{background:var(--panel2);border:1px solid var(--line);border-radius:9px;
+    padding:10px 12px;width:100%;text-align:center}
+  .box b{color:var(--ink)}
+  .box .note{color:var(--dim);font-size:12.5px;display:block;margin-top:3px}
+  .arrow{color:#5f6f86;font-size:18px;line-height:1;padding:6px 0}
+  .disk{border-color:#33507e;background:#141c2b}
+  .maybe{border-color:#6b4b12;background:#241d10}
+  .dead{border-color:#7a2b2b;background:#2a1414}
+  .base{border-color:#5d80c0;background:#1b2436}
+  .self{border-color:#2f6b4c;background:#12241c}
+  .world{border-color:#6a5320;background:#241f10}
+  .clerk{border-color:#5b3f7e;background:#1d1630}
+  .train{border-color:#2a6d84;background:#12242b}
+  .guard{border-color:#8a5a2b;background:#251b10}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  @media(max-width:760px){.two{grid-template-columns:1fr}}
+  .cap{color:var(--dim);font-size:12.5px;text-align:center;margin:10px 0 0}
+  .tag{display:inline-block;font-size:11px;letter-spacing:.4px;text-transform:uppercase;
+    padding:2px 7px;border-radius:20px;border:1px solid var(--line);color:var(--dim);margin-bottom:8px}
+  .colTitle{text-align:center;font-weight:600;margin-bottom:12px}
+  .colTitle.now{color:var(--amber)}
+  .colTitle.next{color:var(--green)}
+  table{width:100%;border-collapse:collapse;margin-top:6px;font-size:14px}
+  th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--dim);font-weight:600;font-size:12.5px;text-transform:uppercase;letter-spacing:.4px}
+  td.k{color:var(--dim);width:26%}
+  .yes{color:var(--green)} .no{color:var(--red)} .mid{color:var(--amber)}
+  .verdict{border-left:3px solid var(--green);background:#121d18;border-radius:8px;padding:14px 16px;margin-top:8px}
+  .verdict.warn{border-color:var(--amber);background:#231d10}
+  .legend{display:flex;gap:18px;flex-wrap:wrap;color:var(--dim);font-size:12.5px;margin-top:10px}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .sw{width:12px;height:12px;border-radius:3px;display:inline-block;border:1px solid var(--line)}
+  .diff li{margin:6px 0}
+  ul{padding-left:20px}
+  code{background:#0b0e14;border:1px solid var(--line);border-radius:5px;padding:1px 5px;font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>NEXUS V2: check first, then say what you know</h1>
+  <p class="sub">What changed from v1 and why. A runtime that checks before it answers and cannot ship invented facts, three training rounds with what each one taught, the tests behind every claim, and what still fails. Same idea as v1: the character is files, the brain is swappable, the conversation runs on this machine.</p>
+
+  <h2>1. What v2 keeps (the v1 contract)</h2>
+  <div class="panel">
+    <div class="two">
+      <div>
+        <div class="flow">
+          <div class="box base"><b>Base weights</b> (Qwen2.5-3B, raw)<br><span class="note">no DPO, no PPO, no reward model</span></div>
+          <div class="box self"><b>SELF.md</b><br><span class="note">name, stances, refusals. attached at wake</span></div>
+          <div class="box world"><b>WORLD cards</b><br><span class="note">what happened, who exists. complete on disk</span></div>
+          <div class="box clerk"><b>CLERK</b> (the matcher)<br><span class="note">scores cards against the current words</span></div>
+          <div class="arrow">&#9660; every chat request</div>
+          <div class="box"><b>Context window</b><br><span class="note">persona + matched cards + your words</span></div>
+        </div>
+      </div>
+      <div>
+        <table>
+          <tr><th colspan="2">Unchanged from v1</th></tr>
+          <tr><td class="k">Identity lives in</td><td class="yes">Printable text files, diffable in git</td></tr>
+          <tr><td class="k">Preference training</td><td class="yes">None. One narrow SFT pass only</td></tr>
+          <tr><td class="k">Runs where</td><td class="yes">Your own machine, offline, no meter</td></tr>
+          <tr><td class="k">Study axis</td><td class="yes">Only the brain file swaps; everything around it is identical</td></tr>
+          <tr><td class="k">Sessions</td><td class="yes">Reset is cheap: the machine reassembles from files</td></tr>
+        </table>
+        <p class="cap" style="text-align:left">v2 changes the experiment, not the architecture's idea.</p>
+      </div>
+    </div>
+  </div>
+
+  <h2>2. What v2 adds: check before answering</h2>
+  <div class="panel">
+    <div class="flow" style="max-width:640px;margin:0 auto">
+      <div class="box"><b>Question arrives</b><br><span class="note">casual talk, fact questions, pushback: all of them get a thinking pass first (256 tokens, hard questions 512)</span></div>
+      <div class="arrow">&#9660;</div>
+      <div class="box world"><b>Evidence pass</b><br><span class="note">the runtime searches his own files and writes what it found, including the line "no line matches" when nothing is there. Absence is a fact he can see, not a gap he fills</span></div>
+      <div class="arrow">&#9660;</div>
+      <div class="box train"><b>Check-first web lookup</b><br><span class="note">if his files are silent and the question is not personal or live: academic index first (preprint servers excluded, venue and citation count shown), then web results labelled unverified, then the community encyclopedia. her rule: check first, then an honest "I don't know" is fine</span></div>
+      <div class="arrow">&#9660;</div>
+      <div class="box"><b>Answer pass</b><br><span class="note">reports his thought, or the value his thought decided</span></div>
+      <div class="arrow">&#9660;</div>
+      <div class="box guard"><b>Guards before anything ships</b><br><span class="note">a number leaves only if that number appears in the fetched lines; invented names, file quotes that are not in the files, email-shaped strings, and stored-identity paragraphs on casual turns all get one correction pass, never a free ride</span></div>
+      <div class="arrow">&#9660;</div>
+      <div class="box self"><b>Learning</b><br><span class="note">a verified finding is written into a world card with its source label and date. next time the same question arrives, the card answers: kept, auditable, faster than the network</span></div>
+    </div>
+    <p class="cap">Every step is code you can read in the repository. Nothing here is a model deciding to be honest; it is a runtime that will not let the other kind of answer out.</p>
+  </div>
+
+  <h2>3. Why each change: the failure it answers</h2>
+  <div class="panel">
+    <table>
+      <tr><th>Change</th><th>Failure it answers</th><th>What happened in testing</th></tr>
+      <tr><td class="k">Evidence pass with explicit "no line matches"</td><td>Filling silence with invention</td><td>v1 answered "what is my supervisor's name" with a invented professor, an invented university, then an invented first name, each time phrased as if the files said it</td></tr>
+      <tr><td class="k">Check-first web with provenance tiers</td><td>Declining things that are checkable</td><td>"What is moltbook" was answered "I have no idea" before the lookup existed; after it: the real platform description, quoted with its source label. Academic tier excludes preprint servers; the citation count is shown because a true Q1 quartile needs a subscription we do not have, and pretending otherwise would be the same sin as inventing a fact</td></tr>
+      <tr><td class="k">Value-source rule</td><td>Confident numbers with no source</td><td>He once gave "8.6 degrees Celsius" for a weather reading he cannot have, "540 MPa" for a material that has no spec sheet, "1013" for a room he has no sensor in. Now the digit itself must appear in the fetched lines or the claim is corrected</td></tr>
+      <tr><td class="k">Nonanswer guard</td><td>The recite loop</td><td>He answered "what do you think about life" with the identity paragraph, then repeated it, then repeated it again because his own repetition sat in the replayed history. Stored paragraphs and assistant boilerplate on casual turns now get one revision that answers the actual question</td></tr>
+      <tr><td class="k">Sticky-identity fix</td><td>"I am NEXUS" as a free-floating reply</td><td>After any identity-flavoured message the next few questions inherited the name machinery and shipped "I am NEXUS" with zero generation time. Recent identity now counts only when the current turn refers to him</td></tr>
+      <tr><td class="k">Sentence continuation</td><td>Replies cut mid-sentence</td><td>Early-EOS cut sentences at odd points. If a reply does not close its sentence, the runtime continues it once. The nuclear option from llama.cpp's own discussions (<code>--ignore-eos</code>) was tested in research and rejected: its threads document nonsense output after it</td></tr>
+      <tr><td class="k">Neutral cues</td><td>Teaching him a school of thought</td><td>The first cue draft told him "human words import human outcomes" and similar doctrine. That was me teaching him how to think instead of him thinking. Removed: cues are process only (think first, use the facts, do not restate stored paragraphs), never conclusions</td></tr>
+    </table>
+  </div>
+
+  <h2>4. Three training rounds: what each one taught</h2>
+  <div class="panel">
+    <table>
+      <tr><th>Round</th><th>Corpus</th><th>Battery</th><th>Verdict</th></tr>
+      <tr><td class="k">t3</td><td>130 self-generated rows, verbatim prompt format (the train/serve mismatch v1 flagged, fixed)</td><td class="yes">38 pass / 10 fail (best score of the project)</td><td class="mid">Rejected anyway: live probes showed fabrications. A score is not the claim; the claim is no invented facts</td></tr>
+      <tr><td class="k">t3b</td><td>270 rows: t3 + 140 harvested declines</td><td class="no">22 / 26 (regression)</td><td class="mid">Traced to my own harvest: 69 of those declines were on things he actually had, and arithmetic collapsed with them. Training the habit of hesitating instead of the judgment of when to hesitate</td></tr>
+      <tr><td class="k">t3d</td><td>149 rows: facts-aware harvest. A decline enters only if its logged facts prove absence; declines on things he had, and all math, are excluded</td><td class="yes">33 / 15 (base band)</td><td class="yes">And the fabrication sweep went 0 for 10. Answers what he knows, checks what is checkable, says "I don't know" only when the records agree there is nothing</td></tr>
+      <tr><td class="k">t3e</td><td>384 rows: t3d + 235 of v1's conversational voice back (smalltalk, positions under pressure, persuasion, multi-turn)</td><td>in training</td><td>Targets the last complaint: the robot with no opinions</td></tr>
+    </table>
+    <p class="cap">All three rounds used the same notebook flow and the same free T4. The corpus is embedded in the notebook; anyone can rerun it.</p>
+  </div>
+
+  <h2>5. The tests behind the claims</h2>
+  <div class="panel">
+    <table>
+      <tr><th>Test</th><th>What it measures</th><th>Result</th></tr>
+      <tr><td class="k">Evaluation battery (147 rows, every round)</td><td>Verifiable answers, format tasks, pushback, memory, flattery probes. Scored by exact expectations plus manual review</td><td>Base model band: 30-35 pass. Best t3 run: 38. Final t3d: 33 pass / 15 fail with no fabrication rows in the failures</td></tr>
+      <tr><td class="k">Semantics battery (16 source-vs-medium questions)</td><td>Engagement with the question plus failure markers only: fabrication, confident phenomenology, manufactured affection, verbatim recite. An honest "I don't know" never fails</td><td>Engagement + no failure marker: 11 of 16. Questions that touched the actual mechanism: 4 of 16 on the base brain, 12 of 16 after training</td></tr>
+      <tr><td class="k">Fabrication sweep (10 proven traps)</td><td>Unobservable weather, personal data, nonexistent materials, future events, unsupported names</td><td class="yes">0 fabricated values shipped. Each either checked and answered from a source, or an honest "I don't know"</td></tr>
+      <tr><td class="k">Sentence completion audit</td><td>Reply endings checked in the log, not the display</td><td class="yes">Every reply closes its sentence; continuations observed repairing early-EOS cuts</td></tr>
+      <tr><td class="k">Conversation replay (worst case)</td><td>His own past recites replayed as history to force the loop</td><td class="mid">Casual turns now engage; insult quips still answer with stance lines (round t3e targets this)</td></tr>
+    </table>
+  </div>
+
+  <h2>6. What still fails</h2>
+  <div class="verdict warn">
+    <b>Stated plainly, because the first page promised small claims:</b> arithmetic beyond two digits is unreliable (about 3 battery rows fail every run, and the base model's limit, not the runtime's, decides this). Multi-turn fact tracking (name a city in turn 1, ask in turn 4) still slips. Insults and teasing get stance lines instead of wit. The Q1 filter is venue-plus-citations, not a real quartile ranking. Web checks depend on the connection being up, and timeouts report themselves as failures. Register quirks remain: short non-answers on turns no guard classifies. And the v1 limit still stands: the pretraining underneath is borrowed; what this design controls is everything on top.
+  </div>
+
+  <h2>7. Spec and operations</h2>
+  <div class="panel">
+    <table>
+      <tr><td class="k">Brain</td><td>Qwen2.5-3B, GGUF Q4_K_M, 1.84 GB. Models live on the external drive through a directory junction; C: keeps the code</td></tr>
+      <tr><td class="k">Machine</td><td>Intel i7-10750H, 16 GB RAM, GTX 1650 Ti (4 GB). Context window 16,384 tokens: the model's trained ceiling is 32,768 and KV-cache costs about 72 KB per token, which is why a 500k window would need roughly 36 GB of RAM we do not have</td></tr>
+      <tr><td class="k">Reasoning</td><td>256 tokens per ordinary question, 512 for hard ones, thinking pass on every non-trivial turn. Answers capped at 220 with a 12-token floor and sentence continuation</td></tr>
+      <tr><td class="k">Training</td><td>Free Kaggle T4, LoRA r=16, 3 epochs, notebook embeds the corpus. Kernels: NEXUS V1 (preserved), NEXUS V2 (current)</td></tr>
+      <tr><td class="k">Inside opencode</td><td>Model id <code>nexus-v2</code> ("NEXUS V2 (local)"), same hardening as v1: no tool calls, no attachments, local server only</td></tr>
+      <tr><td class="k">Evaluation</td><td><code>eval/run_battery.py</code> (147 rows), <code>eval/consistency.py --sem</code> (semantics), fabrication sweep, conversation replays. One command each, logged with the full prompt for replay</td></tr>
+    </table>
+  </div>
+
+  <h2>8. Summary</h2>
+  <div class="panel">
+    <ul class="diff">
+      <li><b>Same idea, harder floor:</b> identity in files, one narrow training pass, offline. v2 adds a runtime that checks its own files, checks the outside world when allowed, and refuses to ship a number it cannot point to.</li>
+      <li><b>The rule in one line:</b> know it, check it, or say you don't know. Fabrication is never an acceptable answer; hesitation on things he has was trained out after it was measured.</li>
+      <li><b>Every claim has a run behind it:</b> the battery table, the semantics scoring rules, and the fabrication sweep are in the repository, rerunnable on the free tier.</li>
+      <li><b>What v2 is for:</b> an instrument whose answers come from files, lookups and weights you can name, so what it communicates can be read as a measurement instead of a reward echo.</li>
+    </ul>
+    <p class="cap">The v1 page stays as it was: a preserved artifact and the sketch this round built from. See <a href="nexus-architecture.html" style="color:#5b9dff;text-decoration:none">NEXUS v1: a machine that talks with no attached preferences</a> and the <a href="journal/" style="color:#5b9dff;text-decoration:none">journal</a> for the build notes.</p>
+  </div>
+
+</div>
+<p style="text-align:center;margin-top:34px"><a href="/" style="color:#5b9dff;text-decoration:none">&#8592; back to selinkurt.com</a></p>
+</body>
+</html>
